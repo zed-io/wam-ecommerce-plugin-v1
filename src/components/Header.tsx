@@ -90,6 +90,7 @@ const Header = (props: IHeaderProps) => {
           <p>{activeChain}</p>
         </SActiveChain>
       ) : (
+        // todo change banner from wallet connect to some UI for checkout
         <Banner />
       )}
       {address && (

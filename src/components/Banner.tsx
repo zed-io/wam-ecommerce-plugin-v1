@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+// todo Use another png for the banner
 import banner from "../assets/walletconnect-banner.png";
 
 const SBannerWrapper = styled.div`

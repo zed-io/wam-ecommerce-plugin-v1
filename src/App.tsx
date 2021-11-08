@@ -2,7 +2,6 @@ import * as React from "react";
 import styled from "styled-components";
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
-import { convertUtf8ToHex } from "@walletconnect/utils";
 import { IInternalEvent } from "@walletconnect/types";
 import Button from "./components/Button";
 import Column from "./components/Column";
@@ -12,17 +11,9 @@ import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
 import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
-import {
-  sanitizeHex,
-  verifySignature,
-  hashTypedDataMessage,
-  hashMessage,
-} from "./helpers/utilities";
+import { sanitizeHex } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 import { IAssetData } from "./helpers/types";
-import Banner from "./components/Banner";
-import AccountAssets from "./components/AccountAssets";
-import { eip712 } from "./helpers/eip712";
 
 const SLayout = styled.div`
   position: relative;
@@ -356,102 +347,6 @@ class App extends React.Component<any, any> {
     }
   };
 
-  public testSignMessage = async () => {
-    const { connector, address, chainId } = this.state;
-
-    if (!connector) {
-      return;
-    }
-
-    // test message
-    const message = `My email is john@doe.com - ${new Date().toUTCString()}`;
-
-    // encode message (hex)
-    const hexMsg = convertUtf8ToHex(message);
-
-    // eth_sign params
-    const msgParams = [address, hexMsg];
-
-    try {
-      // open modal
-      this.toggleModal();
-
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
-
-      // send message
-      const result = await connector.signMessage(msgParams);
-
-      // verify signature
-      const hash = hashMessage(message);
-      const valid = await verifySignature(address, result, hash, chainId);
-
-      // format displayed result
-      const formattedResult = {
-        method: "eth_sign",
-        address,
-        valid,
-        result,
-      };
-
-      // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ connector, pendingRequest: false, result: null });
-    }
-  };
-
-  public testSignTypedData = async () => {
-    const { connector, address, chainId } = this.state;
-
-    if (!connector) {
-      return;
-    }
-
-    const message = JSON.stringify(eip712.example);
-
-    // eth_signTypedData params
-    const msgParams = [address, message];
-
-    try {
-      // open modal
-      this.toggleModal();
-
-      // toggle pending request indicator
-      this.setState({ pendingRequest: true });
-
-      // sign typed data
-      const result = await connector.signTypedData(msgParams);
-
-      // verify signature
-      const hash = hashTypedDataMessage(message);
-      const valid = await verifySignature(address, result, hash, chainId);
-
-      // format displayed result
-      const formattedResult = {
-        method: "eth_signTypedData",
-        address,
-        valid,
-        result,
-      };
-
-      // display result
-      this.setState({
-        connector,
-        pendingRequest: false,
-        result: formattedResult || null,
-      });
-    } catch (error) {
-      console.error(error);
-      this.setState({ connector, pendingRequest: false, result: null });
-    }
-  };
-
   public render = () => {
     const {
       assets,
@@ -475,46 +370,21 @@ class App extends React.Component<any, any> {
           <SContent>
             {!address && !assets.length ? (
               <SLanding center>
-                <h3>
-                  {`Try out WalletConnect`}
-                  <br />
-                  <span>{`v${process.env.REACT_APP_VERSION}`}</span>
-                </h3>
                 <SButtonContainer>
                   <SConnectButton left onClick={this.connect} fetching={fetching}>
-                    {"Connect to WalletConnect"}
+                    {"Connect your wallet"}
                   </SConnectButton>
                 </SButtonContainer>
               </SLanding>
             ) : (
               <SBalances>
-                <Banner />
-                <h3>Actions</h3>
                 <Column center>
                   <STestButtonContainer>
                     <STestButton left onClick={this.testSendTransaction}>
-                      {"eth_sendTransaction"}
-                    </STestButton>
-
-                    <STestButton left onClick={this.testSignMessage}>
-                      {"eth_sign"}
-                    </STestButton>
-
-                    <STestButton left onClick={this.testSignTypedData}>
-                      {"eth_signTypedData"}
+                      {"Pay"}
                     </STestButton>
                   </STestButtonContainer>
                 </Column>
-                <h3>Balances</h3>
-                {!fetching ? (
-                  <AccountAssets chainId={chainId} assets={assets} />
-                ) : (
-                  <Column center>
-                    <SContainer>
-                      <Loader />
-                    </SContainer>
-                  </Column>
-                )}
               </SBalances>
             )}
           </SContent>
@@ -522,15 +392,15 @@ class App extends React.Component<any, any> {
         <Modal show={showModal} toggleModal={this.toggleModal}>
           {pendingRequest ? (
             <SModalContainer>
-              <SModalTitle>{"Pending Call Request"}</SModalTitle>
+              <SModalTitle>{"Pending Payment Request"}</SModalTitle>
               <SContainer>
                 <Loader />
-                <SModalParagraph>{"Approve or reject request using your wallet"}</SModalParagraph>
+                <SModalParagraph>{"Approve or reject payment using your wallet"}</SModalParagraph>
               </SContainer>
             </SModalContainer>
           ) : result ? (
             <SModalContainer>
-              <SModalTitle>{"Call Request Approved"}</SModalTitle>
+              <SModalTitle>{"Payment Confirmed"}</SModalTitle>
               <STable>
                 {Object.keys(result).map(key => (
                   <SRow key={key}>
@@ -542,7 +412,7 @@ class App extends React.Component<any, any> {
             </SModalContainer>
           ) : (
             <SModalContainer>
-              <SModalTitle>{"Call Request Rejected"}</SModalTitle>
+              <SModalTitle>{"Payment Rejected"}</SModalTitle>
             </SModalContainer>
           )}
         </Modal>
