@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import styled from "styled-components";
 import WalletConnect from "@walletconnect/client";
@@ -10,10 +11,11 @@ import Modal from "./components/Modal";
 import Header from "./components/Header";
 import Loader from "./components/Loader";
 import { fonts } from "./styles";
-import { apiGetAccountAssets, apiGetGasPrices, apiGetAccountNonce } from "./helpers/api";
+// import { apiGetAccountAssets } from "./helpers/api";
 import { sanitizeHex } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 import { IAssetData } from "./helpers/types";
+
 
 const SLayout = styled.div`
   position: relative;
@@ -257,11 +259,18 @@ class App extends React.Component<any, any> {
   };
 
   public getAccountAssets = async () => {
-    const { address, chainId } = this.state;
+    const { address } = this.state;
     this.setState({ fetching: true });
     try {
       // get account balances
-      const assets = await apiGetAccountAssets(address, chainId);
+      // const assets = await apiGetAccountAssets(address, chainId);
+      const assets =  {
+        symbol: "CELO",
+        name: "Celo",
+        decimals: "18",
+        contractAddress: "",
+        balance: "",
+      };
 
       await this.setState({ fetching: false, address, assets });
     } catch (error) {
@@ -273,7 +282,7 @@ class App extends React.Component<any, any> {
   public toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
   public testSendTransaction = async () => {
-    const { connector, address, chainId } = this.state;
+    const { connector, address } = this.state;
 
     if (!connector) {
       return;
@@ -283,22 +292,23 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // to
-    const to = address;
+    const to = '0x9D01d68Ba9fEaA4c45b69aFC7b91b71116da33a4';
 
     // nonce
-    const _nonce = await apiGetAccountNonce(address, chainId);
+    // const _nonce = await apiGetAccountNonce(address, chainId);
+    const _nonce = 0;
     const nonce = sanitizeHex(convertStringToHex(_nonce));
 
     // gasPrice
-    const gasPrices = await apiGetGasPrices();
-    const _gasPrice = gasPrices.slow.price;
+    // const gasPrices = await apiGetGasPrices();
+    const _gasPrice = 190;
     const gasPrice = sanitizeHex(convertStringToHex(convertAmountToRawNumber(_gasPrice, 9)));
 
     // gasLimit
     const _gasLimit = 21000;
     const gasLimit = sanitizeHex(convertStringToHex(_gasLimit));
 
-    // value
+    // value - keep at 0
     const _value = 0;
     const value = sanitizeHex(convertStringToHex(_value));
 
@@ -331,8 +341,8 @@ class App extends React.Component<any, any> {
         method: "eth_sendTransaction",
         txHash: result,
         from: address,
-        to: address,
-        value: "0 ETH",
+        to: '0x9D01d68Ba9fEaA4c45b69aFC7b91b71116da33a4',
+        value: "0 Celo",
       };
 
       // display result

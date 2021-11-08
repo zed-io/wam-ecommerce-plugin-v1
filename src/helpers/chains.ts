@@ -34,6 +34,22 @@ export const SUPPORTED_CHAINS: IChainData[] = [
     },
   },
   {
+    name: 'Celo',
+    short_name: 'Cel',
+    chain: "CELO",
+    network: "mainnet",
+    chain_id: 42220,
+    network_id: 42220,
+    rpc_url: "https://forno.celo.org",
+    native_currency: {
+      symbol: "CELO",
+      name: "Celo",
+      decimals: "18",
+      contractAddress: "",
+      balance:"",
+    }
+  },
+  {
     name: "Ethereum Rinkeby",
     short_name: "rin",
     chain: "ETH",
