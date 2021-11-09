@@ -16,15 +16,15 @@ import { sanitizeHex } from "./helpers/utilities";
 import { convertAmountToRawNumber, convertStringToHex } from "./helpers/bignumber";
 import { IAssetData } from "./helpers/types";
 
-import Search from './models/Search';
-import Recipe from './models/Recipe';
-import List from './models/List';
-import Likes from './models/Likes';
-import * as searchView from './views/searchView';
-import * as recipeView from './views/recipeView';
-import * as listView from './views/listView';
-import * as likesView from './views/likesView';
-import { elements, renderLoader, clearLoader } from './views/base';
+import Search from "./models/Search";
+import Recipe from "./models/Recipe";
+import List from "./models/List";
+import Likes from "./models/Likes";
+import * as searchView from "./views/searchView";
+import * as recipeView from "./views/recipeView";
+import * as listView from "./views/listView";
+import * as likesView from "./views/likesView";
+import { elements, renderLoader, clearLoader } from "./views/base";
 
 // ! Global State of the app
 // ! search obect
@@ -58,22 +58,23 @@ const controlSearch = async () => {
             clearLoader();
             searchView.renderResults(state.search.result);
         } catch (err) {
-            alert('Something went wrong with the search....');
+            alert("Something went wrong with the search....");
             clearLoader();
         }
     }
 
-}
-elements.searchForm.addEventListener('submit', e => {
+};
+
+elements.searchForm.addEventListener("submit", e => {
     e.preventDefault();
     controlSearch();
 
 });
 
 
-elements.searchResPages.addEventListener('click', e => {
+elements.searchResPages.addEventListener("click", e => {
 
-    const btn = e.target.closest('.btn-inline');
+    const btn = e.target.closest(".btn-inline");
     console.log(btn);
     if (btn) {
         const goToPage = parseInt(btn.dataset.goto, 10);
@@ -86,7 +87,7 @@ elements.searchResPages.addEventListener('click', e => {
 // ! RECIPE CONTROLLER
 const controlRecipe = async () => {
     // Get ID from url
-    const id = window.location.hash.replace('#', '');
+    const id = window.location.hash.replace("#", "");
 
     if (id) {
         // prepare UI for changes
@@ -125,7 +126,7 @@ const controlRecipe = async () => {
     }
 }
 
-['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+["hashchange", "load"].forEach(event => window.addEventListener(event, controlRecipe));
 
 // ! LIST CONTROLLER
 
@@ -142,11 +143,11 @@ const controlList = () => {
 }
 
 // Handle delete and update list item events
-elements.shopping.addEventListener('click', e => {
-    const id = e.target.closest('.shopping__item').dataset.itemid;
+elements.shopping.addEventListener("click", e => {
+    const id = e.target.closest(".shopping__item").dataset.itemid;
 
     // Handle the delete button
-    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+    if (e.target.matches(".shopping__delete, .shopping__delete *")) {
         // delete from both state and user interface
         state.list.deleteItem(id);
 
@@ -154,15 +155,15 @@ elements.shopping.addEventListener('click', e => {
         listView.deleteItem(id);
 
         // Handle the count update
-    } else if (e.target.matches('.shopping__count-value')) {
+    } else if (e.target.matches(".shopping__count-value")) {
         const val = parseInt(e.target.value, 10);
         state.list.updateCount(id, val);
     }
 });
 
 // todo add events for wallet connect here
-elements.checkoutButton.addEventListener('click', e => {
-    console.log('clicked checkout button');
+elements.checkoutButton.addEventListener("click", e => {
+    console.log("clicked checkout button");
 });
 
 
@@ -172,7 +173,7 @@ const controlLike = () => {
     if (!state.likes) { state.likes = new Likes() };
     const currentID = state.recipe.id;
 
-    // User hasn't yet liked current recipe
+    // User hasn"t yet liked current recipe
     if (!state.likes.isLiked(currentID)) {
 
         // Add like to state
@@ -206,7 +207,7 @@ const controlLike = () => {
 };
 
 // Restore liked recipes on page load
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
     state.likes = new Likes();
 
     // restore likes
@@ -220,23 +221,23 @@ window.addEventListener('load', () => {
 });
 
 // Handling recipe button clicks (increasing/decreasing servings)
-elements.recipe.addEventListener('click', e => {
-    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+elements.recipe.addEventListener("click", e => {
+    if (e.target.matches(".btn-decrease, .btn-decrease *")) {
         // Decrease button is clicked
         if (state.recipe.servings > 1) {
-            state.recipe.updateServings('dec');
+            state.recipe.updateServings("dec");
             recipeView.updateServingsIngredients(state.recipe);
         }
-    } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+    } else if (e.target.matches(".btn-increase, .btn-increase *")) {
         // Increase button is clicked
-        state.recipe.updateServings('inc');
+        state.recipe.updateServings("inc");
         recipeView.updateServingsIngredients(state.recipe);
 
-    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+    } else if (e.target.matches(".recipe__btn--add, .recipe__btn--add *")) {
         // Add ingredients to shopping list
         controlList();
 
-    } else if (e.target.matches('.recipe__love, .recipe__love *')) {
+    } else if (e.target.matches(".recipe__love, .recipe__love *")) {
         // like controller
         controlLike();
 
@@ -523,7 +524,7 @@ class App extends React.Component<any, any> {
     const from = address;
 
     // to
-    const to = '0x9D01d68Ba9fEaA4c45b69aFC7b91b71116da33a4';
+    const to = "0x9D01d68Ba9fEaA4c45b69aFC7b91b71116da33a4";
 
     // nonce
     // const _nonce = await apiGetAccountNonce(address, chainId);
@@ -572,7 +573,7 @@ class App extends React.Component<any, any> {
         method: "eth_sendTransaction",
         txHash: result,
         from: address,
-        to: '0x9D01d68Ba9fEaA4c45b69aFC7b91b71116da33a4',
+        to: "0x9D01d68Ba9fEaA4c45b69aFC7b91b71116da33a4",
         value: "0 Celo",
       };
 
