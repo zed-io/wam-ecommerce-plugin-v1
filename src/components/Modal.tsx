@@ -12,10 +12,10 @@ interface ILightboxStyleProps {
 const SLightbox = styled.div<ILightboxStyleProps>`
   transition: opacity 0.1s ease-in-out;
   text-align: center;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  margin-left: -50vw;
+  // position: absolute;
+  // width: 100vw;
+  // height: 100vh;
+  // margin-left: -50vw;
   top: ${({ offset }) => (offset ? `-${offset}px` : 0)};
   left: 50%;
   z-index: 2;

@@ -251,20 +251,20 @@ elements.recipe.addEventListener("click", e => {
 
 const SLayout = styled.div`
   position: relative;
-  width: 100%;
+  // width: 100%;
   /* height: 100%; */
-  min-height: 100vh;
+  // min-height: 100vh;
   text-align: center;
 `;
 
 const SContent = styled(Wrapper as any)`
-  width: 100%;
-  height: 100%;
-  padding: 0 16px;
+  // width: 100%;
+  // height: 100%;
+  // padding: 0 16px;
 `;
 
 const SLanding = styled(Column as any)`
-  height: 600px;
+  // height: 600px;
 `;
 
 const SButtonContainer = styled(Column as any)`
@@ -278,11 +278,12 @@ const SConnectButton = styled(Button as any)`
   height: 44px;
   width: 100%;
   margin: 12px 0;
+  background-image: linear-gradient(to right bottom, #FBDB89, #F48982);
 `;
 
 const SContainer = styled.div`
   height: 100%;
-  min-height: 200px;
+  // min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -292,7 +293,7 @@ const SContainer = styled.div`
 
 const SModalContainer = styled.div`
   width: 100%;
-  position: relative;
+  // position: relative;
   word-wrap: break-word;
 `;
 
@@ -350,6 +351,7 @@ const STestButton = styled(Button as any)`
   width: 100%;
   max-width: 175px;
   margin: 12px;
+  background-image: linear-gradient(to right bottom, #FBDB89, #F48982);
 `;
 
 interface IAppState {
@@ -614,7 +616,7 @@ class App extends React.Component<any, any> {
               <SLanding center>
                 <SButtonContainer>
                   <SConnectButton left onClick={this.connect} fetching={fetching}>
-                    {"Connect your wallet"}
+                    {"Checkout"}
                   </SConnectButton>
                 </SButtonContainer>
               </SLanding>

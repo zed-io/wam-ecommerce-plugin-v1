@@ -18,7 +18,7 @@ interface IWrapperStyleProps {
 const SWrapper = styled.div<IWrapperStyleProps>`
   will-change: transform, opacity;
   animation: ${fadeIn} 0.7s ease 0s normal 1;
-  min-height: 200px;
+  // min-height: 200px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

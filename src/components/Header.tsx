@@ -2,15 +2,14 @@ import * as React from "react";
 import styled from "styled-components";
 import * as PropTypes from "prop-types";
 import Blockie from "./Blockie";
-import Banner from "./Banner";
 import { ellipseAddress, getChainData } from "../helpers/utilities";
 import { transitions } from "../styles";
 
 const SHeader = styled.div`
-  margin-top: -1px;
+  margin-top: 5px;
   margin-bottom: 1px;
-  width: 100%;
-  height: 100px;
+  width: 300px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,7 +28,7 @@ const SActiveChain = styled(SActiveAccount as any)`
   text-align: left;
   align-items: flex-start;
   & p {
-    font-size: 0.8em;
+    font-size: 0.6em;
     margin: 0;
     padding: 0;
   }
@@ -84,14 +83,11 @@ const Header = (props: IHeaderProps) => {
   const activeChain = chainId ? getChainData(chainId).name : null;
   return (
     <SHeader {...props}>
-      {connected && activeChain ? (
+      {connected && activeChain && (
         <SActiveChain>
           <p>{`Connected to`}</p>
           <p>{activeChain}</p>
         </SActiveChain>
-      ) : (
-        // todo change banner from wallet connect to some UI for checkout
-        <Banner />
       )}
       {address && (
         <SActiveAccount>
