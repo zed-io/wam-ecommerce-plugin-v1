@@ -20,7 +20,9 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
-    "types": ["react", "jest"]
+    "types": ["react", "jest"],
+    "skipLibCheck": true,
+
   },
   "exclude": [
     "node_modules",
@@ -29,6 +31,9 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "src/views/*",
+    "src/models/*",
+    "src/App.tsx"
   ]
 }

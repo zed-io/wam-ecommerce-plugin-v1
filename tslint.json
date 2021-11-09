@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint:recommended"],
   "rules": {
     "prefer-for-of": false,
     "no-shadowed-variable": false,
@@ -9,7 +9,8 @@
     "ordered-imports": false,
     "jsx-no-lambda": false,
     "jsx-boolean-value": false,
-    "no-console": false
+    "no-console": false,
+    "no-trailing-whitespace": false
   },
   "linterOptions": {
     "exclude": [
